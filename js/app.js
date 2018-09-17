@@ -23,6 +23,7 @@ var firstAndPike = {
   customerMax: 65,
   avgCookies: 6.3,
   hourlyTotals: [],
+
   customers: function() {
     var min = Math.ceil(this.customerMin);
     var max = Math.floor(this.customerMax);
@@ -55,4 +56,42 @@ var firstAndPike = {
   }
 };
 
+var seatacAirport = {
+  customerMin: 3,
+  customerMax: 24,
+  avgCookies: 1.2,
+  hourlyTotals: [],
+
+  customers: function() {
+    var min = Math.ceil(this.customerMin);
+    var max = Math.floor(this.customerMax);
+
+    return Math.floor(Math.random() * (max - min +1)) + min;
+  },
+
+  cookies: function() {
+    for(var i = 0; i < times.length; i++) {
+      this.hourlyTotals[i] = Math.round(this.cookies * this.avgCookies);
+    }
+  },
+
+  displayTotals: function() {
+    this.cookies();
+    var storeTotal = 0;
+    var list = document.getElementById('seatacAirport');
+    var newLi;
+
+    for(var i = 0; i < this.hourlyTotals.length; i++) {
+      storeTotal += this.hourlyTotals[i];
+      newLi = document.createElement('li');
+      newLi.textContent = times[i] + ': ' + this.hourlyTotals[i];
+      list.appendChild(newLi);
+    }
+    newLi = document.createElement('li');
+    newLi.textContent = 'Total: ' + storeTotal;
+    list.appendChild(newLi);
+  }
+};
+
 firstAndPike.displayTotals();
+seatacAirport.displayTotals();
