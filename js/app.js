@@ -130,6 +130,44 @@ var seattleCenter = {
   },
 };
 
+var capitolHill = {
+  customerMin: 20,
+  customerMax: 38,
+  avgCookies: 2.3,
+  hourlyTotals: [],
+
+  customers: function() {
+    var min = Math.ceil(this.customerMin);
+    var max = Math.floor(this.customerMax);
+
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  },
+
+  cookies: function() {
+    for(var i = 0; i < times.length; i++) {
+      this.hourlyTotals[i] = Math.round(this.customers() * this.avgCookies);
+    }
+  },
+
+  displayTotals: function() {
+    this.cookies();
+    var storeTotal = 0;
+    var list = document.getElementById('capitolHill');
+    var newLi;
+
+    for(var i = 0; i < this.hourlyTotals.length; i++) {
+      storeTotal += this.hourlyTotals[i];
+      newLi = document.createElement('li');
+      newLi.textContent = times[i] + ': ' + this.hourlyTotals[i];
+      list.appendChild(newLi);
+    }
+    newLi = document.createElement('li');
+    newLi.textContent = 'Total: ' + storeTotal;
+    list.appendChild(newLi);
+  },
+};
+
 firstAndPike.displayTotals();
 seatacAirport.displayTotals();
 seattleCenter.displayTotals();
+capitolHill.displayTotals();
