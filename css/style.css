@@ -1,0 +1,26 @@
+body {
+  background: #eee;
+}
+
+header {
+  color: salmon;
+  font-size: 28px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 6px;
+}
+
+img {
+  display: block;
+  margin: 50px auto;
+  height: 123px;
+  width: 394px;
+}
+
+ul {
+  list-style-type: disc;
+  margin: 18px;
+}
