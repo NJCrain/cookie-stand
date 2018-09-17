@@ -1,0 +1,17 @@
+body {
+  background: #eee;
+}
+
+header {
+  color: salmon;
+  font-size: 24px;
+  text-align: center;
+}
+
+img {
+  display: block;
+  margin: 50px auto;
+  height: 123px;
+  width: 394px;
+
+}
