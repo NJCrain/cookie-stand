@@ -4,8 +4,13 @@ body {
 
 header {
   color: salmon;
-  font-size: 24px;
+  font-size: 28px;
   text-align: center;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 10px;
 }
 
 img {
@@ -13,5 +18,8 @@ img {
   margin: 50px auto;
   height: 123px;
   width: 394px;
+}
 
+ul {
+  list-style-type: disc;
 }
