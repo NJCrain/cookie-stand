@@ -38,15 +38,20 @@ var firstAndPike = {
 
   displayTotals: function() {
     this.cookies();
+    var storeTotal = 0;
     var list = document.getElementById('firstAndPike');
     var newLi;
     var text;
     for (var i = 0; i < this.hourlyTotals.length; i++) {
+      storeTotal += this.hourlyTotals[i];
       text = times[i] + ': ' + this.hourlyTotals[i];
       newLi = document.createElement('li');
       newLi.textContent = text;
       list.appendChild(newLi);
     }
+    newLi = document.createElement('li');
+    newLi.textContent = 'Total: ' + storeTotal;
+    list.appendChild(newLi);
   }
 };
 
