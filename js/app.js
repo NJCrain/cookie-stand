@@ -71,7 +71,7 @@ var seatacAirport = {
 
   cookies: function() {
     for(var i = 0; i < times.length; i++) {
-      this.hourlyTotals[i] = Math.round(this.cookies * this.avgCookies);
+      this.hourlyTotals[i] = Math.round(this.customers() * this.avgCookies);
     }
   },
 
