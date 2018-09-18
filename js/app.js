@@ -18,194 +18,49 @@ var times = [
   '8PM'
 ];
 
-var firstAndPike = {
-  customerMin: 23,
-  customerMax: 65,
-  avgCookies: 6.3,
-  hourlyTotals: [],
+var Store = function(min, max, avg, name) {
+  this.name = name;
+  this.customerMin = min;
+  this.customerMax = max;
+  this.avgCookies = avg;
+  this.hourlyTotals = [];
+};
 
-  customers: function() {
-    var min = Math.ceil(this.customerMin);
-    var max = Math.floor(this.customerMax);
+Store.prototype.customers = function() {
+  return Math.floor(Math.random() * (this.customerMax - this.customerMin +1)) + this.customerMin;
+};
 
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  },
-
-  cookies: function() {
-    for (var i = 0; i < times.length; i++) {
-      this.hourlyTotals[i] = Math.round(this.customers() * this.avgCookies);
-    }
-  },
-
-  displayTotals: function() {
-    this.cookies();
-    var storeTotal = 0;
-    var list = document.getElementById('firstAndPike');
-    var newLi;
-    var text;
-    for (var i = 0; i < this.hourlyTotals.length; i++) {
-      storeTotal += this.hourlyTotals[i];
-      text = times[i] + ': ' + this.hourlyTotals[i];
-      newLi = document.createElement('li');
-      newLi.textContent = text;
-      list.appendChild(newLi);
-    }
-    newLi = document.createElement('li');
-    newLi.textContent = 'Total: ' + storeTotal;
-    list.appendChild(newLi);
+Store.prototype.cookies = function() {
+  for (var i = 0; i < times.length; i++) {
+    this.hourlyTotals[i] = Math.floor(this.customers() * this.avgCookies);
   }
 };
 
-var seatacAirport = {
-  customerMin: 3,
-  customerMax: 24,
-  avgCookies: 1.2,
-  hourlyTotals: [],
-
-  customers: function() {
-    var min = Math.ceil(this.customerMin);
-    var max = Math.floor(this.customerMax);
-
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  },
-
-  cookies: function() {
-    for (var i = 0; i < times.length; i++) {
-      this.hourlyTotals[i] = Math.round(this.customers() * this.avgCookies);
-    }
-  },
-
-  displayTotals: function() {
-    this.cookies();
-    var storeTotal = 0;
-    var list = document.getElementById('seatacAirport');
-    var newLi;
-
-    for (var i = 0; i < this.hourlyTotals.length; i++) {
-      storeTotal += this.hourlyTotals[i];
-      newLi = document.createElement('li');
-      newLi.textContent = times[i] + ': ' + this.hourlyTotals[i];
-      list.appendChild(newLi);
-    }
+Store.prototype.render = function() {
+  this.cookies();
+  var storeTotal = 0;
+  var list = document.getElementById(this.name);
+  var newLi;
+  var text;
+  for (var i = 0; i < this.hourlyTotals.length; i++) {
+    storeTotal += this.hourlyTotals[i];
+    text = times[i] + ': ' + this.hourlyTotals[i];
     newLi = document.createElement('li');
-    newLi.textContent = 'Total: ' + storeTotal;
+    newLi.textContent = text;
     list.appendChild(newLi);
   }
+  newLi = document.createElement('li');
+  newLi.textContent = 'Total: ' + storeTotal;
+  list.appendChild(newLi);
 };
 
-var seattleCenter = {
-  customerMin: 11,
-  customerMax: 38,
-  avgCookies: 3.7,
-  hourlyTotals: [],
-
-  customers: function() {
-    var min = Math.ceil(this.customerMin);
-    var max = Math.floor(this.customerMax);
-
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  },
-
-  cookies: function() {
-    for (var i = 0; i < times.length; i++) {
-      this.hourlyTotals[i] = Math.round(this.customers() * this.avgCookies);
-    }
-  },
-
-  displayTotals: function() {
-    this.cookies();
-    var storeTotal = 0;
-    var list = document.getElementById('seattleCenter');
-    var newLi;
-
-    for (var i = 0; i < this.hourlyTotals.length; i++) {
-      storeTotal += this.hourlyTotals[i];
-      newLi = document.createElement('li');
-      newLi.textContent = times[i] + ': ' + this.hourlyTotals[i];
-      list.appendChild(newLi);
-    }
-    newLi = document.createElement('li');
-    newLi.textContent = 'Total: ' + storeTotal;
-    list.appendChild(newLi);
-  }
-};
-
-var capitolHill = {
-  customerMin: 20,
-  customerMax: 38,
-  avgCookies: 2.3,
-  hourlyTotals: [],
-
-  customers: function() {
-    var min = Math.ceil(this.customerMin);
-    var max = Math.floor(this.customerMax);
-
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  },
-
-  cookies: function() {
-    for (var i = 0; i < times.length; i++) {
-      this.hourlyTotals[i] = Math.round(this.customers() * this.avgCookies);
-    }
-  },
-
-  displayTotals: function() {
-    this.cookies();
-    var storeTotal = 0;
-    var list = document.getElementById('capitolHill');
-    var newLi;
-
-    for (var i = 0; i < this.hourlyTotals.length; i++) {
-      storeTotal += this.hourlyTotals[i];
-      newLi = document.createElement('li');
-      newLi.textContent = times[i] + ': ' + this.hourlyTotals[i];
-      list.appendChild(newLi);
-    }
-    newLi = document.createElement('li');
-    newLi.textContent = 'Total: ' + storeTotal;
-    list.appendChild(newLi);
-  }
-};
-
-var alki = {
-  customerMin: 2,
-  customerMax: 16,
-  avgCookies: 4.6,
-  hourlyTotals: [],
-
-  customers: function() {
-    var min = Math.ceil(this.customerMin);
-    var max = Math.floor(this.customerMax);
-
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  },
-
-  cookies: function() {
-    for (var i = 0; i < times.length; i++) {
-      this.hourlyTotals[i] = Math.round(this.customers() * this.avgCookies);
-    }
-  },
-
-  displayTotals: function() {
-    this.cookies();
-    var storeTotal = 0;
-    var list = document.getElementById('alki');
-    var newLi;
-
-    for (var i = 0; i < this.hourlyTotals.length; i++) {
-      storeTotal += this.hourlyTotals[i];
-      newLi = document.createElement('li');
-      newLi.textContent = times[i] + ': ' + this.hourlyTotals[i];
-      list.appendChild(newLi);
-    }
-    newLi = document.createElement('li');
-    newLi.textContent = 'Total: ' + storeTotal;
-    list.appendChild(newLi);
-  }
-};
-
-firstAndPike.displayTotals();
-seatacAirport.displayTotals();
-seattleCenter.displayTotals();
-capitolHill.displayTotals();
-alki.displayTotals();
+var firstAndPike = new Store(23, 65, 6.3, 'firstAndPike');
+var seatacAirport = new Store(3, 24, 1.2, 'seatacAirport');
+var seattleCenter = new Store(11, 38, 3.7, 'seattleCenter');
+var capitolHill = new Store(20, 38, 2.3, 'capitolHill');
+var alki = new Store(2, 16, 4.6, 'alki');
+firstAndPike.render();
+seatacAirport.render();
+seattleCenter.render();
+capitolHill.render();
+alki.render();
