@@ -22,13 +22,14 @@ var newRow;
 var row;
 var newCell;
 var text;
+var hourlyTotals = [];
 
 var Store = function(min, max, avg, name) {
   this.name = name;
   this.customerMin = min;
   this.customerMax = max;
   this.avgCookies = avg;
-  this.hourlyTotals = [];
+  this.hourlySales = [];
   Store.stores.push(this);
 };
 
@@ -43,7 +44,7 @@ Store.prototype.customers = function() {
 
 Store.prototype.cookies = function() {
   for (var i = 0; i < times.length; i++) {
-    this.hourlyTotals[i] = Math.floor(this.customers() * this.avgCookies);
+    this.hourlySales[i] = Math.floor(this.customers() * this.avgCookies);
   }
 };
 
@@ -58,9 +59,9 @@ Store.prototype.render = function() {
   text = document.createTextNode(this.name);
   newCell.appendChild(text);
   row.appendChild(newCell);
-  for (var i = 0; i < this.hourlyTotals.length; i++) {
-    storeTotal += this.hourlyTotals[i];
-    text = document.createTextNode(this.hourlyTotals[i]);
+  for (var i = 0; i < this.hourlySales.length; i++) {
+    storeTotal += this.hourlySales[i];
+    text = document.createTextNode(this.hourlySales[i]);
     newCell = document.createElement('td');
     newCell.appendChild(text);
     row.appendChild(newCell);
@@ -77,7 +78,7 @@ new Store(11, 38, 3.7, 'Seattle Center');
 new Store(20, 38, 2.3, 'Capitol Hill');
 new Store(2, 16, 4.6, 'Alki');
 
-var createHeader = function() {
+function createHeader() {
   var head = document.querySelector('thead');
   newRow = document.createElement('tr');
   head.appendChild(newRow);
@@ -96,9 +97,22 @@ var createHeader = function() {
   text = document.createTextNode('Total');
   newCell.appendChild(text);
   row.appendChild(newCell);
-};
+}
 
+function createFooter() {
+  var foot = document.querySelector('tfoot');
+  newRow = document.createElement('tr');
+  foot.appendChild(newRow);
+  row = foot.lastChild;
+  newCell = document.createElement('th');
+  text = document.createTextNode('Totals');
+  newCell.appendChild(text);
+  row.appendChild(newCell);
+  // for(var i = 0; i < ;)
+}
 createHeader();
+createFooter();
 for(var i = 0; i < Store.stores.length; i++) {
   Store.stores[i].render();
 }
+
