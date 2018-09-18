@@ -71,11 +71,11 @@ Store.prototype.render = function() {
   row.appendChild(newCell);
 };
 
-var firstAndPike = new Store(23, 65, 6.3, 'First And Pike');
-var seatacAirport = new Store(3, 24, 1.2, 'Seatac Airport');
-var seattleCenter = new Store(11, 38, 3.7, 'Seattle Center');
-var capitolHill = new Store(20, 38, 2.3, 'Capitol Hill');
-var alki = new Store(2, 16, 4.6, 'Alki');
+new Store(23, 65, 6.3, 'First And Pike');
+new Store(3, 24, 1.2, 'Seatac Airport');
+new Store(11, 38, 3.7, 'Seattle Center');
+new Store(20, 38, 2.3, 'Capitol Hill');
+new Store(2, 16, 4.6, 'Alki');
 
 var createHeader = function() {
   var head = document.querySelector('thead');
@@ -99,8 +99,6 @@ var createHeader = function() {
 };
 
 createHeader();
-firstAndPike.render();
-seatacAirport.render();
-seattleCenter.render();
-capitolHill.render();
-alki.render();
+for(var i = 0; i < Store.stores.length; i++) {
+  Store.stores[i].render();
+}
