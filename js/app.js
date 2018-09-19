@@ -136,8 +136,7 @@ function createFooter() {
   }
 }
 
-addNewStore.addEventListener('submit', addStore);
-
+/*when the submit event fires on the sales page, this will stop the button from causing a page refresh and take in the data entered into the form fields to create a new store object for it, render it onto the table, and recreate the footer to reflect the newly added values per hour */
 function addStore(e) {
   e.preventDefault();
   var minCust = parseInt(e.target.minCust.value);
@@ -150,6 +149,11 @@ function addStore(e) {
   renderBody();
   createFooter();
 }
+
+
+
+addNewStore.addEventListener('submit', addStore);
+
 
 createHeader();
 renderBody();
