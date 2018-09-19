@@ -150,10 +150,7 @@ function addStore(e) {
   createFooter();
 }
 
-
-
 addNewStore.addEventListener('submit', addStore);
-
 
 createHeader();
 renderBody();
