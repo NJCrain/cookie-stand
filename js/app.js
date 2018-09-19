@@ -18,194 +18,120 @@ var times = [
   '8PM'
 ];
 
-var firstAndPike = {
-  customerMin: 23,
-  customerMax: 65,
-  avgCookies: 6.3,
-  hourlyTotals: [],
+//variables to be used later in multiple different function to render sections of the sales table
+var newRow;
+var row;
+var newCell;
+var text;
 
-  customers: function() {
-    var min = Math.ceil(this.customerMin);
-    var max = Math.floor(this.customerMax);
+//fill an array with 0s to be equal in length to array of times
+var hourlyTotals = [];
+for (i = 0; i < times.length; i++) {
+  hourlyTotals[i] = 0;
+}
 
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  },
+// constructor function for stores that takes in a number for minimum customers, maximum customers, avg cookies per sale and a string value for the name of the store. Also indexs all objects in an array named stores.
+function Store(min, max, avg, name) {
+  this.name = name;
+  this.customerMin = min;
+  this.customerMax = max;
+  this.avgCookies = avg;
+  this.hourlySales = [];
+  Store.stores.push(this);
+}
 
-  cookies: function() {
-    for (var i = 0; i < times.length; i++) {
-      this.hourlyTotals[i] = Math.round(this.customers() * this.avgCookies);
-    }
-  },
+Store.stores = [];
 
-  displayTotals: function() {
-    this.cookies();
-    var storeTotal = 0;
-    var list = document.getElementById('firstAndPike');
-    var newLi;
-    var text;
-    for (var i = 0; i < this.hourlyTotals.length; i++) {
-      storeTotal += this.hourlyTotals[i];
-      text = times[i] + ': ' + this.hourlyTotals[i];
-      newLi = document.createElement('li');
-      newLi.textContent = text;
-      list.appendChild(newLi);
-    }
-    newLi = document.createElement('li');
-    newLi.textContent = 'Total: ' + storeTotal;
-    list.appendChild(newLi);
+//method for store objects to determine customers for an hour within the stores min and max range
+Store.prototype.customers = function() {
+  return (
+    Math.floor(Math.random() * (this.customerMax - this.customerMin + 1)) +
+    this.customerMin
+  );
+};
+
+//method for store objects to calculate sales for every hour with a random number of customers and store the data in an array property of the object named hourlySales.
+Store.prototype.cookies = function() {
+  for (var i = 0; i < times.length; i++) {
+    this.hourlySales[i] = Math.floor(this.customers() * this.avgCookies);
   }
 };
 
-var seatacAirport = {
-  customerMin: 3,
-  customerMax: 24,
-  avgCookies: 1.2,
-  hourlyTotals: [],
-
-  customers: function() {
-    var min = Math.ceil(this.customerMin);
-    var max = Math.floor(this.customerMax);
-
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  },
-
-  cookies: function() {
-    for (var i = 0; i < times.length; i++) {
-      this.hourlyTotals[i] = Math.round(this.customers() * this.avgCookies);
-    }
-  },
-
-  displayTotals: function() {
-    this.cookies();
-    var storeTotal = 0;
-    var list = document.getElementById('seatacAirport');
-    var newLi;
-
-    for (var i = 0; i < this.hourlyTotals.length; i++) {
-      storeTotal += this.hourlyTotals[i];
-      newLi = document.createElement('li');
-      newLi.textContent = times[i] + ': ' + this.hourlyTotals[i];
-      list.appendChild(newLi);
-    }
-    newLi = document.createElement('li');
-    newLi.textContent = 'Total: ' + storeTotal;
-    list.appendChild(newLi);
+/*method for store objects that will draw them into the table. begins by creating a new row in the table and adding a cell at the begginning that contains the name of the store as a th element. Then proceeds to loop through the array of hourlySales and add each index to its own cell in the row. The loop also tracks total sales for that store in a day with the storeTotal variable and will update the array of hourlyTotals for the footer to use. After the loop is finished a final cell is added to the row that displays that stores total sales for the day*/
+Store.prototype.render = function() {
+  this.cookies();
+  var storeTotal = 0;
+  var body = document.querySelector('tbody');
+  newRow = document.createElement('tr');
+  body.appendChild(newRow);
+  row = body.lastChild;
+  newCell = document.createElement('th');
+  text = document.createTextNode(this.name);
+  newCell.appendChild(text);
+  row.appendChild(newCell);
+  for (var i = 0; i < this.hourlySales.length; i++) {
+    storeTotal += this.hourlySales[i];
+    hourlyTotals[i] = this.hourlySales[i] + hourlyTotals[i];
+    text = document.createTextNode(this.hourlySales[i]);
+    newCell = document.createElement('td');
+    newCell.appendChild(text);
+    row.appendChild(newCell);
   }
+  newCell = document.createElement('td');
+  text = document.createTextNode(storeTotal);
+  newCell.appendChild(text);
+  row.appendChild(newCell);
 };
 
-var seattleCenter = {
-  customerMin: 11,
-  customerMax: 38,
-  avgCookies: 3.7,
-  hourlyTotals: [],
+//create the pre-existing stores with the given data
+new Store(23, 65, 6.3, 'First And Pike');
+new Store(3, 24, 1.2, 'Seatac Airport');
+new Store(11, 38, 3.7, 'Seattle Center');
+new Store(20, 38, 2.3, 'Capitol Hill');
+new Store(2, 16, 4.6, 'Alki');
 
-  customers: function() {
-    var min = Math.ceil(this.customerMin);
-    var max = Math.floor(this.customerMax);
+/*function to create the header of the table of sales data. Creates a blank cell to start to give proper alignment with the store names. Then loops through the array of times to create cells for each hour. Finishes with creating a final cell for the totals section*/
+function createHeader() {
+  var head = document.querySelector('thead');
+  newRow = document.createElement('tr');
+  head.appendChild(newRow);
+  row = head.lastChild;
+  newCell = document.createElement('th');
+  row.appendChild(newCell);
 
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  },
-
-  cookies: function() {
-    for (var i = 0; i < times.length; i++) {
-      this.hourlyTotals[i] = Math.round(this.customers() * this.avgCookies);
-    }
-  },
-
-  displayTotals: function() {
-    this.cookies();
-    var storeTotal = 0;
-    var list = document.getElementById('seattleCenter');
-    var newLi;
-
-    for (var i = 0; i < this.hourlyTotals.length; i++) {
-      storeTotal += this.hourlyTotals[i];
-      newLi = document.createElement('li');
-      newLi.textContent = times[i] + ': ' + this.hourlyTotals[i];
-      list.appendChild(newLi);
-    }
-    newLi = document.createElement('li');
-    newLi.textContent = 'Total: ' + storeTotal;
-    list.appendChild(newLi);
+  for (var i = 0; i < times.length; i++) {
+    newCell = document.createElement('th');
+    text = document.createTextNode(times[i]);
+    newCell.appendChild(text);
+    row.appendChild(newCell);
   }
-};
 
-var capitolHill = {
-  customerMin: 20,
-  customerMax: 38,
-  avgCookies: 2.3,
-  hourlyTotals: [],
+  newCell = document.createElement('th');
+  text = document.createTextNode('Total');
+  newCell.appendChild(text);
+  row.appendChild(newCell);
+}
 
-  customers: function() {
-    var min = Math.ceil(this.customerMin);
-    var max = Math.floor(this.customerMax);
-
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  },
-
-  cookies: function() {
-    for (var i = 0; i < times.length; i++) {
-      this.hourlyTotals[i] = Math.round(this.customers() * this.avgCookies);
-    }
-  },
-
-  displayTotals: function() {
-    this.cookies();
-    var storeTotal = 0;
-    var list = document.getElementById('capitolHill');
-    var newLi;
-
-    for (var i = 0; i < this.hourlyTotals.length; i++) {
-      storeTotal += this.hourlyTotals[i];
-      newLi = document.createElement('li');
-      newLi.textContent = times[i] + ': ' + this.hourlyTotals[i];
-      list.appendChild(newLi);
-    }
-    newLi = document.createElement('li');
-    newLi.textContent = 'Total: ' + storeTotal;
-    list.appendChild(newLi);
+/*function to create the footer of the table. Starts with adding the first cell that reads Totals (for totals per hour across all stores). The loop goes through the hourlyTotals array that is updated with relevant data every time the Store.render method is called. Adds a new cell for each index while putting the value at that index as the cells text.*/
+function createFooter() {
+  var foot = document.querySelector('tfoot');
+  newRow = document.createElement('tr');
+  foot.appendChild(newRow);
+  row = foot.lastChild;
+  newCell = document.createElement('th');
+  text = document.createTextNode('Totals');
+  newCell.appendChild(text);
+  row.appendChild(newCell);
+  for (var i = 0; i < hourlyTotals.length; i++) {
+    newCell = document.createElement('td');
+    text = document.createTextNode(hourlyTotals[i]);
+    newCell.appendChild(text);
+    row.appendChild(newCell);
   }
-};
+}
 
-var alki = {
-  customerMin: 2,
-  customerMax: 16,
-  avgCookies: 4.6,
-  hourlyTotals: [],
-
-  customers: function() {
-    var min = Math.ceil(this.customerMin);
-    var max = Math.floor(this.customerMax);
-
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  },
-
-  cookies: function() {
-    for (var i = 0; i < times.length; i++) {
-      this.hourlyTotals[i] = Math.round(this.customers() * this.avgCookies);
-    }
-  },
-
-  displayTotals: function() {
-    this.cookies();
-    var storeTotal = 0;
-    var list = document.getElementById('alki');
-    var newLi;
-
-    for (var i = 0; i < this.hourlyTotals.length; i++) {
-      storeTotal += this.hourlyTotals[i];
-      newLi = document.createElement('li');
-      newLi.textContent = times[i] + ': ' + this.hourlyTotals[i];
-      list.appendChild(newLi);
-    }
-    newLi = document.createElement('li');
-    newLi.textContent = 'Total: ' + storeTotal;
-    list.appendChild(newLi);
-  }
-};
-
-firstAndPike.displayTotals();
-seatacAirport.displayTotals();
-seattleCenter.displayTotals();
-capitolHill.displayTotals();
-alki.displayTotals();
+createHeader();
+for (var i = 0; i < Store.stores.length; i++) {
+  Store.stores[i].render();
+}
+createFooter();
