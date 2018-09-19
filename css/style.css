@@ -28,4 +28,10 @@ ul {
 
 th {
   padding: 6px;
+  text-align: left;
+}
+
+td {
+  padding: 6px;
+  text-align: left;
 }
