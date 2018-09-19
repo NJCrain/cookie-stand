@@ -18,16 +18,19 @@ var times = [
   '8PM'
 ];
 
+//variables to be used later in multiple different function to render sections of the sales table
 var newRow;
 var row;
 var newCell;
 var text;
 
+//fill an array with 0s to be equal in length to array of times
 var hourlyTotals = [];
 for (i = 0; i < times.length; i++) {
   hourlyTotals[i] = 0;
 }
 
+// constructor function for stores that takes in a number for minimum customers, maximum customers, avg cookies per sale and a string value for the name of the store. Also indexs all objects in an array named stores.
 var Store = function(min, max, avg, name) {
   this.name = name;
   this.customerMin = min;
@@ -39,6 +42,7 @@ var Store = function(min, max, avg, name) {
 
 Store.stores = [];
 
+//method for store objects to determine customers for an hour within the stores min and max range
 Store.prototype.customers = function() {
   return (
     Math.floor(Math.random() * (this.customerMax - this.customerMin + 1)) +
@@ -46,12 +50,14 @@ Store.prototype.customers = function() {
   );
 };
 
+//method for store objects to calculate sales for every hour with a random number of customers and store the data in an array property of the object named hourlySales.
 Store.prototype.cookies = function() {
   for (var i = 0; i < times.length; i++) {
     this.hourlySales[i] = Math.floor(this.customers() * this.avgCookies);
   }
 };
 
+/*method for store objects that will draw them into the table. begins by creating a new row in the table and adding a cell at the begginning that contains the name of the store as a th element. Then proceeds to loop through the array of hourlySales and add each index to its own cell in the row. The loop also tracks total sales for that store in a day with the storeTotal variable and will update the array of hourlyTotals for the footer to use. After the loop is finished a final cell is added to the row that displays that stores total sales for the day*/
 Store.prototype.render = function() {
   this.cookies();
   var storeTotal = 0;
@@ -65,7 +71,7 @@ Store.prototype.render = function() {
   row.appendChild(newCell);
   for (var i = 0; i < this.hourlySales.length; i++) {
     storeTotal += this.hourlySales[i];
-    hourlyTotals[i] = (this.hourlySales[i]) + (hourlyTotals[i]);
+    hourlyTotals[i] = this.hourlySales[i] + hourlyTotals[i];
     text = document.createTextNode(this.hourlySales[i]);
     newCell = document.createElement('td');
     newCell.appendChild(text);
@@ -77,12 +83,14 @@ Store.prototype.render = function() {
   row.appendChild(newCell);
 };
 
+//create the pre-existing stores with the given data
 new Store(23, 65, 6.3, 'First And Pike');
 new Store(3, 24, 1.2, 'Seatac Airport');
 new Store(11, 38, 3.7, 'Seattle Center');
 new Store(20, 38, 2.3, 'Capitol Hill');
 new Store(2, 16, 4.6, 'Alki');
 
+/*function to create the header of the table of sales data. Creates a blank cell to start to give proper alignment with the store names. Then loops through the array of times to create cells for each hour. Finishes with creating a final cell for the totals section*/
 function createHeader() {
   var head = document.querySelector('thead');
   newRow = document.createElement('tr');
@@ -104,6 +112,7 @@ function createHeader() {
   row.appendChild(newCell);
 }
 
+/*function to create the footer of the table. Starts with adding the first cell that reads Totals (for totals per hour across all stores). The loop goes through the hourlyTotals array that is updated with relevant data every time the Store.render method is called. Adds a new cell for each index while putting the value at that index as the cells text.*/
 function createFooter() {
   var foot = document.querySelector('tfoot');
   newRow = document.createElement('tr');
@@ -120,6 +129,7 @@ function createFooter() {
     row.appendChild(newCell);
   }
 }
+
 createHeader();
 for (var i = 0; i < Store.stores.length; i++) {
   Store.stores[i].render();
