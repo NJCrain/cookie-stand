@@ -22,7 +22,11 @@ var newRow;
 var row;
 var newCell;
 var text;
+
 var hourlyTotals = [];
+for (i = 0; i < times.length; i++) {
+  hourlyTotals[i] = 0;
+}
 
 var Store = function(min, max, avg, name) {
   this.name = name;
@@ -61,6 +65,7 @@ Store.prototype.render = function() {
   row.appendChild(newCell);
   for (var i = 0; i < this.hourlySales.length; i++) {
     storeTotal += this.hourlySales[i];
+    hourlyTotals[i] = (this.hourlySales[i]) + (hourlyTotals[i]);
     text = document.createTextNode(this.hourlySales[i]);
     newCell = document.createElement('td');
     newCell.appendChild(text);
@@ -108,11 +113,15 @@ function createFooter() {
   text = document.createTextNode('Totals');
   newCell.appendChild(text);
   row.appendChild(newCell);
-  // for(var i = 0; i < ;)
+  for (var i = 0; i < hourlyTotals.length; i++) {
+    newCell = document.createElement('td');
+    text = document.createTextNode(hourlyTotals[i]);
+    newCell.appendChild(text);
+    row.appendChild(newCell);
+  }
 }
 createHeader();
-createFooter();
-for(var i = 0; i < Store.stores.length; i++) {
+for (var i = 0; i < Store.stores.length; i++) {
   Store.stores[i].render();
 }
-
+createFooter();
