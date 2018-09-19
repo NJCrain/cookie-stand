@@ -24,3 +24,50 @@ ul {
   list-style-type: disc;
   margin: 18px;
 }
+
+table {
+  empty-cells: hide;
+  margin: 8px;
+  width: 99%;
+}
+
+thead{
+  empty-cells: hide;
+}
+
+th {
+  border: 3px solid black;
+  font-weight: bold;
+  padding: 6px; 
+  text-align: left;
+}
+
+thead > tr > th {
+  text-align: center;
+}
+
+td {
+  border: 1px solid black;
+  padding: 6px;
+  text-align: right;
+}
+
+fieldset {
+  width: 50%;
+}
+
+label {
+  display: inline-block;
+}
+
+input {
+  display: inline-block;
+  margin: 4px;
+  width: 25%;
+}
+  
+
+button {
+  display: block;
+  margin: 6px;
+}
