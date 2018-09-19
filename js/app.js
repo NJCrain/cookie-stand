@@ -31,14 +31,14 @@ for (i = 0; i < times.length; i++) {
 }
 
 // constructor function for stores that takes in a number for minimum customers, maximum customers, avg cookies per sale and a string value for the name of the store. Also indexs all objects in an array named stores.
-var Store = function(min, max, avg, name) {
+function Store(min, max, avg, name) {
   this.name = name;
   this.customerMin = min;
   this.customerMax = max;
   this.avgCookies = avg;
   this.hourlySales = [];
   Store.stores.push(this);
-};
+}
 
 Store.stores = [];
 
