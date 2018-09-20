@@ -26,13 +26,13 @@ ul {
 }
 
 table {
-  empty-cells: hide;
+  border-radius: 16px;
   margin: 8px;
   width: 99%;
 }
 
-thead{
-  empty-cells: hide;
+tr {
+  border-radius: 16px;
 }
 
 th {
