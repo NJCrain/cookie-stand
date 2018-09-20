@@ -141,7 +141,7 @@ function addStore(e) {
   e.preventDefault();
   var minCust = parseInt(e.target.minCust.value);
   var maxCust = parseInt(e.target.maxCust.value);
-  var avgCookies = parseInt(e.target.avgCookies.value);
+  var avgCookies = parseFloat(e.target.avgCookies.value);
   var storeName = e.target.storeName.value;
 
   new Store(minCust, maxCust, avgCookies, storeName);

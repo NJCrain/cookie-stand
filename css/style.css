@@ -100,6 +100,10 @@ tr {
   border-radius: 16px;
 }
 
+tr:hover {
+  background: #ccc;
+}
+
 th {
   border: 3px solid black;
   font-weight: bold;
