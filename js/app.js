@@ -20,8 +20,6 @@ var times = [
 
 //variables to be used later in multiple different function to render sections of the sales table
 var newRow;
-var newCell;
-var text;
 Store.stores = [];
 
 var addNewStore = document.getElementById('addNewStore');
@@ -62,25 +60,14 @@ Store.prototype.render = function() {
   if (this.hourlySales.length === 0) {
     this.cookies();
     var body = document.querySelector('tbody');
-    newRow = document.createElement('tr');
-    body.appendChild(newRow);
-    newCell = document.createElement('th');
-    text = document.createTextNode(this.name);
-    newCell.appendChild(text);
-    newRow.appendChild(newCell);
+    newRow = addElement('tr', '', body);
+    addElement('th', this.name, newRow);
     var storeTotal = 0;
     for (var i = 0; i < this.hourlySales.length; i++) {
       storeTotal += this.hourlySales[i];
-      hourlyTotals[i] += this.hourlySales[i];
-      text = document.createTextNode(this.hourlySales[i]);
-      newCell = document.createElement('td');
-      newCell.appendChild(text);
-      newRow.appendChild(newCell);
+      addElement('td', this.hourlySales[i], newRow);
     }
-    newCell = document.createElement('td');
-    text = document.createTextNode(storeTotal);
-    newCell.appendChild(text);
-    newRow.appendChild(newCell);
+    addElement('td', storeTotal, newRow);
   }
 };
 
@@ -91,48 +78,46 @@ new Store(11, 38, 3.7, 'Seattle Center');
 new Store(20, 38, 2.3, 'Capitol Hill');
 new Store(2, 16, 4.6, 'Alki');
 
+//takes in 2 strings and a pointer to a DOM node to create a new child element with the given content and append it to the specified node.
+function addElement(element, content, parent) {
+  var newEl = document.createElement(element);
+  var newContent = document.createTextNode(content);
+  newEl.appendChild(newContent);
+  parent.appendChild(newEl);
+  return newEl;
+}
+
+/*function to create the header of the table of sales data. Creates a blank cell to start to give proper alignment with the store names. Then loops through the array of times to create cells for each hour. Finishes with creating a final cell for the totals section*/
+function createHeader() {
+  var head = document.querySelector('thead');
+  newRow = addElement('tr', '', head);
+  addElement('th', '', newRow);
+
+  for (var i = 0; i < times.length; i++) {
+    addElement('th', times[i], newRow);
+  }
+
+  addElement('th', 'Total', newRow);
+}
+
 function renderBody() {
   for (var i = 0; i < Store.stores.length; i++) {
     Store.stores[i].render();
   }
 }
 
-/*function to create the header of the table of sales data. Creates a blank cell to start to give proper alignment with the store names. Then loops through the array of times to create cells for each hour. Finishes with creating a final cell for the totals section*/
-function createHeader() {
-  var head = document.querySelector('thead');
-  newRow = document.createElement('tr');
-  head.appendChild(newRow);
-  newCell = document.createElement('th');
-  newRow.appendChild(newCell);
-
-  for (var i = 0; i < times.length; i++) {
-    newCell = document.createElement('th');
-    text = document.createTextNode(times[i]);
-    newCell.appendChild(text);
-    newRow.appendChild(newCell);
-  }
-
-  newCell = document.createElement('th');
-  text = document.createTextNode('Total');
-  newCell.appendChild(text);
-  newRow.appendChild(newCell);
-}
-
 /*function to create the footer of the table. Starts with adding the first cell that reads Totals (for totals per hour across all stores). The loop goes through the hourlyTotals array that is updated with relevant data every time the Store.render method is called. Adds a new cell for each index while putting the value at that index as the cells text.*/
 function createFooter() {
   var foot = document.querySelector('tfoot');
   foot.innerHTML = '';
-  newRow = document.createElement('tr');
-  foot.appendChild(newRow);
-  newCell = document.createElement('th');
-  text = document.createTextNode('Totals');
-  newCell.appendChild(text);
-  newRow.appendChild(newCell);
-  for (var i = 0; i < hourlyTotals.length; i++) {
-    newCell = document.createElement('td');
-    text = document.createTextNode(hourlyTotals[i]);
-    newCell.appendChild(text);
-    newRow.appendChild(newCell);
+  newRow = addElement('tr', '', foot);
+  addElement('th', 'Totals', newRow);
+  for (var i = 0; i < times.length; i++) {
+    var hourTotal = 0;
+    for (var j = 0; j < Store.stores.length; j++) {
+      hourTotal += Store.stores[j].hourlySales[i];
+    }
+    addElement('td', hourTotal, newRow);
   }
 }
 
