@@ -20,8 +20,6 @@ var times = [
 
 //variables to be used later in multiple different function to render sections of the sales table
 var newRow;
-var newCell;
-var text;
 Store.stores = [];
 
 var addNewStore = document.getElementById('addNewStore');
@@ -67,7 +65,6 @@ Store.prototype.render = function() {
     var storeTotal = 0;
     for (var i = 0; i < this.hourlySales.length; i++) {
       storeTotal += this.hourlySales[i];
-      hourlyTotals[i] += this.hourlySales[i];
       addElement('td', this.hourlySales[i], newRow);
     }
     addElement('td', storeTotal, newRow);
@@ -89,7 +86,6 @@ function addElement(element, content, parent) {
   parent.appendChild(newEl);
   return newEl;
 }
-
 
 /*function to create the header of the table of sales data. Creates a blank cell to start to give proper alignment with the store names. Then loops through the array of times to create cells for each hour. Finishes with creating a final cell for the totals section*/
 function createHeader() {
@@ -116,8 +112,12 @@ function createFooter() {
   foot.innerHTML = '';
   newRow = addElement('tr', '', foot);
   addElement('th', 'Totals', newRow);
-  for (var i = 0; i < hourlyTotals.length; i++) {
-    addElement('td', hourlyTotals[i], newRow);
+  for (var i = 0; i < times.length; i++) {
+    var hourTotal = 0;
+    for (var j = 0; j < Store.stores.length; j++) {
+      hourTotal += Store.stores[j].hourlySales[i];
+    }
+    addElement('td', hourTotal, newRow);
   }
 }
 
